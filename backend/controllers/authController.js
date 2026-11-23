@@ -1,6 +1,6 @@
 const bcrypt=require("bcryptjs");
 const crypto=require("crypto");
-const nodemailer=require("nodemailer");
+const {emailReady,sendEmail}=require("../utils/email");
 const User=require("../models/User");
 const BrokerProfile=require("../models/BrokerProfile");
 const {string,email,phone}=require("../utils/validation");
@@ -10,10 +10,9 @@ function setLoginCookie(res,user){res.cookie("nestora_auth",sign(user),cookieOpt
 function clearLoginCookie(res){res.clearCookie("nestora_auth",{httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/"});}
 function safeUser(user){return {id:user._id.toString(),name:user.name,email:user.email,phone:user.phone,role:user.role,suspended:user.suspended,emailVerified:user.emailVerified,profileImage:user.profileImage,sellerDetails:user.role==="seller"?user.sellerDetails||{sellerType:"individual",organizationName:""}:undefined,createdAt:user.createdAt};}
 async function deliverVerificationEmail(to,token){
-  if(!process.env.SMTP_HOST){if(process.env.NODE_ENV!=="production")return false;throw Object.assign(new Error("Email verification requires SMTP configuration"),{status:503});}
-  const transport=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),secure:process.env.SMTP_SECURE==="true",auth:process.env.SMTP_USER?{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}:undefined});
+  if(!emailReady()){if(process.env.NODE_ENV!=="production")return false;throw Object.assign(new Error("Email verification is not configured"),{status:503});}
   const link=`${process.env.APP_URL||process.env.FRONTEND_URL||"http://localhost:5000"}/account.html?verificationToken=${encodeURIComponent(token)}`;
-  await transport.sendMail({from:process.env.SMTP_FROM||process.env.SMTP_USER,to,subject:"Verify your NESTORA email",text:`Use this link within 24 hours to verify your email: ${link}`});return true;
+  return sendEmail({to,subject:"Verify your NESTORA email",text:`Use this link within 24 hours to verify your email: ${link}`});
 }
 async function register(req,res){
   const role=string(req.body.role,"role",4,12).toLowerCase();if(!["buyer","broker","seller"].includes(role))return res.status(400).json({success:false,message:"Public registration supports buyers, brokers, and sellers only"});
@@ -29,7 +28,7 @@ async function register(req,res){
     if(sellerType==="company"&&!organizationName)return res.status(400).json({success:false,message:"Organization name is required for company sellers"});
     sellerDetails={sellerType,organizationName};
   }
-  if(process.env.NODE_ENV==="production"&&!process.env.SMTP_HOST)return res.status(503).json({success:false,message:"Email verification is not configured. Set SMTP before accepting new accounts."});
+  if(process.env.NODE_ENV==="production"&&!emailReady())return res.status(503).json({success:false,message:"Email verification is not configured. Set Resend or SMTP before accepting new accounts."});
   const verificationToken=randomToken();
   const user=await User.create({name,email:mail,phone:mobile,passwordHash:await bcrypt.hash(password,12),role,emailVerificationTokenHash:digest(verificationToken),emailVerificationTokenExpires:new Date(Date.now()+24*60*60*1000),...(sellerDetails?{sellerDetails}:{})});
   let verificationSent=false;
@@ -66,10 +65,9 @@ async function changePassword(req,res){
   req.user.passwordHash=await bcrypt.hash(next,12);req.user.tokenVersion+=1;await req.user.save();setLoginCookie(res,req.user);res.json({success:true,message:"Password changed"});
 }
 async function deliverResetEmail(to,token){
-  if(!process.env.SMTP_HOST){if(process.env.NODE_ENV!=="production")return false;throw Object.assign(new Error("Password reset email is not configured"),{status:503});}
-  const transport=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),secure:process.env.SMTP_SECURE==="true",auth:process.env.SMTP_USER?{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}:undefined});
+  if(!emailReady()){if(process.env.NODE_ENV!=="production")return false;throw Object.assign(new Error("Password reset email is not configured"),{status:503});}
   const link=`${process.env.APP_URL||process.env.FRONTEND_URL||"http://localhost:5000"}/forgot-password.html?token=${encodeURIComponent(token)}`;
-  await transport.sendMail({from:process.env.SMTP_FROM||process.env.SMTP_USER,to,subject:"Reset your NESTORA password",text:`Use this link within 30 minutes to reset your password: ${link}`});return true;
+  return sendEmail({to,subject:"Reset your NESTORA password",text:`Use this link within 30 minutes to reset your password: ${link}`});
 }
 async function forgotPassword(req,res){
   const mail=email(req.body.email),user=await User.findOne({email:mail});let developmentResetToken;

@@ -43,7 +43,7 @@ The password must be 12–72 characters. The script hashes it before storing it 
 - Buyers can browse approved listings, save favorites, send property enquiries, request visits, and manage their own account in `/dashboard.html`.
 - Administrators sign in through `/admin-login.html`. The admin dashboard reads live API data and supports listing moderation, broker verification, user suspension, enquiry and visit review, and statistics.
 
-New accounts receive an email-verification link when SMTP is configured. In non-production, the API returns a one-use verification token for local testing. Forgot-password requests use the same SMTP settings; without SMTP, non-production responses include a short-lived reset token. Production never returns either token and requires SMTP for account registration and reset email delivery.
+New accounts receive an email-verification link when Resend or SMTP is configured. In non-production, the API returns a one-use verification token for local testing. Forgot-password requests use the same email provider; without one, non-production responses include a short-lived reset token. Production never returns either token and requires Resend or SMTP for account registration and reset email delivery. For Render Free, use Resend's HTTPS API because outbound SMTP ports are blocked.
 
 ## Environment variables
 
@@ -58,7 +58,8 @@ New accounts receive an email-verification link when SMTP is configured. In non-
 | `FRONTEND_URL`, `APP_URL` | Frontend and reset-link base URLs |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Optional Cloudinary storage credentials; all three enable remote image storage |
 | `CLOUDINARY_FOLDER` | Cloudinary folder (default `nestora/properties`) |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | Optional password-reset email delivery |
+| `RESEND_API_KEY`, `RESEND_FROM` | Recommended production email delivery, including on Render Free; use a verified sender domain for real recipients |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | Optional SMTP alternative on hosts that permit outbound SMTP |
 | `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Temporary admin seeding inputs for `npm run create-admin` |
 
 Development image uploads use uploads/. Production uploads require Cloudinary. Sellers and brokers can choose up to six photos in the dashboard and preview them before submission. Images are limited to 5 MB each and checked for JPEG, PNG, or WebP signatures. Do not use local disk uploads as persistent storage on ephemeral production hosts.
@@ -91,11 +92,11 @@ The integration suite starts an isolated MongoDB instance with `mongodb-memory-s
 - Broker verification is a separate admin-controlled review from email verification.
 - The site uses same-origin cookie sessions. A cross-site frontend deployment requires aligned HTTPS origins, cookie policy, CORS, and CSRF configuration.
 - Admin changes and selected moderation actions are audit logged. The audit log does not replace operational monitoring, backups, or a production security review.
-- Cloudinary and SMTP require credentials supplied by the project owner. Without them, local development uploads work and reset tokens are only exposed in non-production mode.
+- Cloudinary and an email provider require credentials supplied by the project owner. Without them, local development uploads work and reset tokens are only exposed in non-production mode.
 
 ## Hosted deployment
 
-The Render Blueprint is in `render.yaml`; deployment prerequisites and the current deployment status are documented in `DEPLOYMENT_REPORT.md`. Production requires MongoDB Atlas, Cloudinary, and SMTP credentials configured in the hosting provider's secret settings. Never commit `.env` or paste production secrets into source files.
+The Render Blueprint is in `render.yaml`; deployment prerequisites and the current deployment status are documented in `DEPLOYMENT_REPORT.md`. Production requires MongoDB Atlas, Cloudinary, and either Resend or SMTP credentials configured in the hosting provider's secret settings. The free Render Blueprint uses Resend over HTTPS; Render Free services sleep when idle and have ephemeral local filesystems, so persistent images must use Cloudinary. Never commit `.env` or paste production secrets into source files.
 
 For the complete product, architecture, data, verification, and remaining-work summary, see `PROJECT_REPORT.md`.
 

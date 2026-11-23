@@ -3,7 +3,7 @@ services:
     name: nestora-web
     runtime: node
     region: singapore
-    plan: starter
+    plan: free
     buildCommand: npm ci --omit=dev
     startCommand: npm start
     healthCheckPath: /api/health
@@ -38,15 +38,7 @@ services:
         sync: false
       - key: CLOUDINARY_FOLDER
         value: nestora/properties
-      - key: SMTP_HOST
+      - key: RESEND_API_KEY
         sync: false
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_SECURE
-        value: "false"
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASSWORD
-        sync: false
-      - key: SMTP_FROM
+      - key: RESEND_FROM
         sync: false

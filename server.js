@@ -1,6 +1,7 @@
 require("dotenv").config();
 const crypto=require("crypto");
 const {connectDatabase,getMongoUri,isMongoUriPlaceholder}=require("./backend/config/db");
+const {emailReady}=require("./backend/utils/email");
 const app=require("./backend/app");
 
 const previewOnly=process.env.NESTORA_FRONTEND_PREVIEW==="true";
@@ -11,8 +12,9 @@ if(!process.env.JWT_SECRET||process.env.JWT_SECRET.length<32||/replace-with|chan
 
 function validateProductionConfig(){
   if(process.env.NODE_ENV!=="production")return;
-  const required=["CLOUDINARY_CLOUD_NAME","CLOUDINARY_API_KEY","CLOUDINARY_API_SECRET","SMTP_HOST","SMTP_USER","SMTP_PASSWORD","SMTP_FROM"];
+  const required=["CLOUDINARY_CLOUD_NAME","CLOUDINARY_API_KEY","CLOUDINARY_API_SECRET"];
   const missing=required.filter(key=>!String(process.env[key]||"").trim());
+  if(!emailReady())missing.push("RESEND_API_KEY and RESEND_FROM (or SMTP_HOST, SMTP_USER, SMTP_PASSWORD, SMTP_FROM)");
   const mongoUri=getMongoUri();
   if(!mongoUri)missing.unshift("MONGO_URI (or MONGODB_URI)");
   else if(isMongoUriPlaceholder(mongoUri))missing.unshift("MONGO_URI (replace sample placeholders)");
