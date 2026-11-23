@@ -130,16 +130,22 @@
   async function request(path, options = {}) {
     const method = (options.method || "GET").toUpperCase();
     const headers = new Headers(options.headers || {});
+    const safeErrorMessage = value => {
+      const message = String(value || "");
+      return /ECONNREFUSED|ECONNRESET|ETIMEDOUT|ENOTFOUND|MongooseServerSelectionError|MongoNetworkError|127\.0\.0\.1:\d+/i.test(message)
+        ? "The service is temporarily unavailable. Please try again shortly."
+        : message;
+    };
     if (!["GET", "HEAD", "OPTIONS"].includes(method)) {
       const csrfResponse = await fetch("/api/auth/csrf", { credentials: "same-origin" });
       const csrfData = await csrfResponse.json().catch(() => ({}));
-      if (!csrfResponse.ok) throw new Error(csrfData.message || "Could not initialize request protection");
+      if (!csrfResponse.ok) throw new Error(safeErrorMessage(csrfData.message || "Could not initialize request protection"));
       headers.set("X-CSRF-Token", csrfData.csrfToken);
     }
     if (options.body && !(options.body instanceof FormData)) headers.set("Content-Type", "application/json");
     const response = await fetch(path, { ...options, method, headers, credentials: "same-origin" });
     const data = response.status === 204 ? {} : await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.message || "Request failed (" + response.status + ")");
+    if (!response.ok) throw new Error(safeErrorMessage(data.message || "Request failed (" + response.status + ")"));
     return data;
   }
 
