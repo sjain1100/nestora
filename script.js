@@ -124,17 +124,22 @@ async function loadProperties(params = new URLSearchParams(), options = {}) {
         grid.classList.toggle("properties-grid--single", items.length === 1);
         if (items.length) renderPropertyGrid(grid, items, false);
         else {
+            const hasFilters = ["city", "location", "propertyType", "minPrice", "maxPrice", "search"].some(key => query.has(key));
             grid.replaceChildren(propertySearchMessage(
-                "No exact matches yet",
-                "Try another city, property type, or price range. Your filters can be adjusted above.",
-                "Clear filters",
-                () => {
-                    ["filterLocation", "filterType", "filterPrice"].forEach(id => {
-                        const control = document.getElementById(id);
-                        if (control) control.value = "all";
-                    });
-                    filterProperties();
-                }
+                hasFilters ? "No properties match these filters" : "No properties published yet",
+                hasFilters
+                    ? "Try another city, property type, or price range. You can adjust the filters above."
+                    : "Approved listings will appear here after a seller or broker submits a property and it passes review.",
+                hasFilters ? "Clear filters" : "Create an account",
+                hasFilters
+                    ? () => {
+                        ["filterLocation", "filterType", "filterPrice"].forEach(id => {
+                            const control = document.getElementById(id);
+                            if (control) control.value = "all";
+                        });
+                        filterProperties();
+                    }
+                    : () => { window.location.href = "register.html"; }
             ));
         }
         const total = Number(data.pagination?.total ?? items.length);
