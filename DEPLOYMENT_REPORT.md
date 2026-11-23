@@ -15,7 +15,7 @@ Repository: [sjain1100/nestora](https://github.com/sjain1100/nestora), branch `m
 
 ## Where the data is
 
-- **Local development:** the app's local database is named `nestora_dev`. Its persistent files are under `D:\WT\.test-cache\nestora-dev-db-20261122-130654`. Start the local API and MongoDB together with `npm run dev:local`, then connect MongoDB Compass to `mongodb://127.0.0.1:56890/nestora_dev`. In Compass, open collections such as `properties`, `users`, `favorites`, `enquiries`, `visits`, and `contactmessages`.
+- **Local development:** the app's local database is named `nestora_dev`. Its persistent files are under `D:\WT\.test-cache\nestora-dev-db-20261122-130654`. Start the local API and MongoDB together with `npm run dev:local`, then connect MongoDB Compass to the exact `MongoDB Compass URI` printed by the command. The previous run used `mongodb://127.0.0.1:56890/nestora_dev`; the port can change when the local database restarts. In Compass, open collections such as `properties`, `users`, `favorites`, `enquiries`, `visits`, and `contactmessages`.
 - **Current local status:** a check of `http://127.0.0.1:5000/api/health` returned `503` with MongoDB disconnected. The API therefore cannot currently read the local database. If another server is already using port 5000, stop it before starting `npm run dev:local`.
 - **Production:** no Atlas database is configured and no local records have been migrated. After setting `MONGO_URI`, production records will live in that Atlas deployment; view them in Atlas **Database → Data Explorer**. Production photos should be stored in Cloudinary.
 - **GitHub is source code storage, not the application database.** `.env`, the local database/cache, `uploads/`, and `node_modules/` are excluded from the repository.
