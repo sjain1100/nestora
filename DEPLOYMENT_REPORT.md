@@ -1,38 +1,38 @@
 # NESTORA deployment report
 
-**Status: deployment configuration prepared; the public deployment has not been created.**
+**Status: source published to GitHub; deployment configuration prepared; production hosting and database are not deployed.**
 
-## Target architecture
+Repository: [sjain1100/nestora](https://github.com/sjain1100/nestora), branch `main`.
 
-- Render Node web service for the Express frontend and API, served from one HTTPS origin.
-- MongoDB Atlas for persistent application records.
-- Cloudinary for persistent listing photos.
+## Architecture
+
+- Render Node web service for Express pages and API, served from one HTTPS origin.
+- MongoDB Atlas for production application records.
+- Cloudinary for persistent production listing photos.
 - SMTP for email verification and password-reset messages.
 
-`render.yaml` defines the service, Node runtime range, production mode, health check, generated JWT secret, and secret environment-variable prompts. Production secret values are deliberately not stored in the deployment configuration or report.
+`render.yaml` defines the Render service, Singapore region, `starter` compute plan, build/start commands, `/api/health` health check, generated JWT secret, same-origin URLs, and secret environment-variable prompts. The Starter compute plan is paid. No Render service has been provisioned and no hosting charges have started.
 
-## Production behavior
+## Where the data is
 
-- The service starts with `npm start` and uses Render's injected `PORT`.
-- The health check uses `/api/health` and only reports ready after MongoDB connects.
-- The site and API remain same-origin, so the existing HttpOnly cookie and CSRF flows are preserved.
-- Production image uploads use Cloudinary; local `uploads/` files are not relied on for persistence.
-- The Atlas database starts empty. Local illustrative sample listings and user records are not automatically copied to production.
-- Create the first administrator only after deployment, using a unique password and the existing `npm run create-admin` procedure. Do not place the password in this report or commit it to Git.
+- **Local development:** the app's local database is named `nestora_dev`. Its persistent files are under `D:\WT\.test-cache\nestora-dev-db-20261122-130654`. Start the local API and MongoDB together with `npm run dev:local`, then connect MongoDB Compass to `mongodb://127.0.0.1:56890/nestora_dev`. In Compass, open collections such as `properties`, `users`, `favorites`, `enquiries`, `visits`, and `contactmessages`.
+- **Current local status:** a check of `http://127.0.0.1:5000/api/health` returned `503` with MongoDB disconnected. The API therefore cannot currently read the local database. If another server is already using port 5000, stop it before starting `npm run dev:local`.
+- **Production:** no Atlas database is configured and no local records have been migrated. After setting `MONGO_URI`, production records will live in that Atlas deployment; view them in Atlas **Database → Data Explorer**. Production photos should be stored in Cloudinary.
+- **GitHub is source code storage, not the application database.** `.env`, the local database/cache, `uploads/`, and `node_modules/` are excluded from the repository.
 
-## Required before the service can start correctly
+## Deployment steps
 
-1. Publish the initial source to the public GitHub repository supplied by the user. The local `main` branch and `origin` remote are configured, and a local initial commit exists. Git's HTTPS push could not authenticate in this session, so the GitHub branch is not populated yet.
-2. Create an Atlas database user and database, then supply its URI as `MONGO_URI`. Restrict the Atlas IP access list to the hosting service's outbound IP ranges; do not use `0.0.0.0/0`.
-3. Supply Cloudinary credentials for persistent photo uploads.
-4. Supply a production SMTP host and credentials so registration verification and password reset can send mail.
-5. Select the Render service plan. The current blueprint targets `starter` for an always-on production service; creating it incurs monthly hosting charges. No service has been provisioned and no charges have started.
-6. After the Render URL exists, confirm its generated origin values, create the admin account, and decide whether the illustrative demo properties should be imported into the production database.
+1. Create a MongoDB Atlas deployment and a database user. Use its connection string for Render's `MONGO_URI`. Once the Render service exists, allowlist its current outbound IP ranges in Atlas. Keep the list restricted; do not use `0.0.0.0/0`.
+2. Create a Cloudinary account and provide `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` in Render's environment settings.
+3. Provide production SMTP settings in Render for registration verification and password-reset email.
+4. In Render, create a Blueprint from [the GitHub repository](https://github.com/sjain1100/nestora), using branch `main` and the root `render.yaml`. Review its paid Starter plan and configure the prompted secrets before applying it.
+5. After deployment, open the Render URL and verify `/api/health` reports the API and MongoDB as ready. Create the first administrator privately after the Atlas database is connected. Decide separately whether to add the illustrative demo listings to production.
 
-## Verification completed
+Render's free web services sleep after 15 minutes without inbound traffic, have ephemeral local filesystems, and cannot send outbound SMTP traffic on ports 25, 465, or 587. The current application configuration is set to the paid Starter plan; a free preview would need a separate configuration and would not provide the configured SMTP path.
 
-- A local health check first returned ready, but the latest request returned `503` with `MongoDB is not connected`. The local preview is currently not healthy; it was left running and not restarted to avoid disturbing the existing local database.
-- `node --check` passed for `server.js`, `backend/app.js`, and `scripts/seed-admin.js`; `package.json` parsed successfully with the configured Node range. The Render YAML was reviewed against the current Blueprint docs; no Render CLI or YAML parser is installed here.
-- Render's official deployment documentation was checked for the Node web-service, health-check, environment-secret, runtime, and free-tier behavior.
-- No production deployment, data migration, account creation, or paid resource provisioning was performed.
-- The project integration suite was not run as part of this preparation.
+## Verification and remaining work
+
+- All 66 committed project files, including the Express backend and `render.yaml`, are published on GitHub `main`. Local `.env`, database files, uploads, and dependencies are absent from the remote tree.
+- Current local API health is `503` because MongoDB is disconnected.
+- Atlas, Cloudinary, and SMTP production credentials have not been configured. No production records were imported, no administrator was created, and no deployment or paid service was started.
+- Previous JavaScript syntax checks passed for `server.js`, `backend/app.js`, and `scripts/seed-admin.js`. The full integration suite was not rerun for this publication.
