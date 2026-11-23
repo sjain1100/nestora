@@ -136,14 +136,18 @@
         ? "The service is temporarily unavailable. Please try again shortly."
         : message;
     };
+    const safeFetch = async (url, options) => {
+      try { return await fetch(url, options); }
+      catch { throw new Error("The service is temporarily unavailable. Please try again shortly."); }
+    };
     if (!["GET", "HEAD", "OPTIONS"].includes(method)) {
-      const csrfResponse = await fetch("/api/auth/csrf", { credentials: "same-origin" });
+      const csrfResponse = await safeFetch("/api/auth/csrf", { credentials: "same-origin" });
       const csrfData = await csrfResponse.json().catch(() => ({}));
       if (!csrfResponse.ok) throw new Error(safeErrorMessage(csrfData.message || "Could not initialize request protection"));
       headers.set("X-CSRF-Token", csrfData.csrfToken);
     }
     if (options.body && !(options.body instanceof FormData)) headers.set("Content-Type", "application/json");
-    const response = await fetch(path, { ...options, method, headers, credentials: "same-origin" });
+    const response = await safeFetch(path, { ...options, method, headers, credentials: "same-origin" });
     const data = response.status === 204 ? {} : await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(safeErrorMessage(data.message || "Request failed (" + response.status + ")"));
     return data;
