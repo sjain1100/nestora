@@ -32,7 +32,8 @@ Render's free web services sleep after 15 minutes without inbound traffic, have 
 
 ## Verification and remaining work
 
-- All 66 committed project files, including the Express backend and `render.yaml`, are published on GitHub `main`. Local `.env`, database files, uploads, and dependencies are absent from the remote tree.
-- Current local API health is `503` because MongoDB is disconnected.
-- Atlas, Cloudinary, and SMTP production credentials have not been configured. No production records were imported, no administrator was created, and no deployment or paid service was started.
-- Previous JavaScript syntax checks passed for `server.js`, `backend/app.js`, and `scripts/seed-admin.js`. The full integration suite was not rerun for this publication.
+- All 66 NESTORA source files, including the Express backend, safe database-error handling, and Render Blueprint, are published on GitHub `main`. `.env`, database files, uploads, and dependencies are excluded.
+- The backend integration suite passed (1 test) against its isolated temporary MongoDB. It did not connect to or modify Atlas. JavaScript syntax checks passed for `server.js`, `api-client.js`, and `backend/middleware/security.js`.
+- Production startup now checks for the required Atlas, Cloudinary, and SMTP setting names and reports missing names without printing secret values.
+- The current local API health is still `503` because MongoDB is disconnected. The live Atlas connection has not been verified, and no production data has been migrated.
+- Atlas access, fresh database credentials, Cloudinary, and SMTP still need to be configured privately. No admin account, Render service, or paid resource has been created; there are no hosting charges.
