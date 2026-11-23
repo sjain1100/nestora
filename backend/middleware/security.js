@@ -1,9 +1,38 @@
 const crypto = require("crypto");
 const equal = (a, b) => { if (typeof a !== "string" || typeof b !== "string") return false; const x=Buffer.from(a), y=Buffer.from(b); return x.length===y.length && crypto.timingSafeEqual(x,y); };
+function normalizeOrigin(value) {
+  if (typeof value !== "string" || !value.trim()) return null;
+  try {
+    const parsed = new URL(value.trim());
+    return ["http:", "https:"].includes(parsed.protocol) ? parsed.origin.toLowerCase() : null;
+  } catch {
+    return null;
+  }
+}
+function isAllowedOrigin(req) {
+  const rawOrigin = req.get?.("origin") || req.headers?.origin;
+  if (!rawOrigin) return true;
+  const origin = normalizeOrigin(rawOrigin);
+  if (!origin) return false;
+
+  const configured = [
+    process.env.ALLOWED_ORIGINS,
+    process.env.FRONTEND_URL,
+    process.env.APP_URL,
+    process.env.RENDER_EXTERNAL_URL,
+    process.env.RENDER_EXTERNAL_HOSTNAME && `https://${process.env.RENDER_EXTERNAL_HOSTNAME}`
+  ].filter(Boolean).flatMap(value => value.split(",")).map(normalizeOrigin).filter(Boolean);
+  if (!configured.length) configured.push("http://localhost:5000");
+  if (configured.includes(origin)) return true;
+
+  const host = req.get?.("host") || req.headers?.host;
+  const protocol = req.protocol || "http";
+  return Boolean(host && normalizeOrigin(`${protocol}://${host}`) === origin);
+}
+
 function csrfGuard(req, res, next) {
   if (!["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) return next();
-  const allowed = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_URL || "http://localhost:5000").split(",").map(x=>x.trim());
-  if (req.get("origin") && !allowed.includes(req.get("origin"))) return res.status(403).json({ success:false, message:"Origin is not allowed" });
+  if (req.get("origin") && !isAllowedOrigin(req)) return res.status(403).json({ success:false, message:"Origin is not allowed" });
   if (["/auth/login","/auth/register","/auth/forgot-password","/auth/reset-password"].includes(req.path)) return next();
   if (req.cookies?.nestora_auth && !equal(req.cookies.nestora_csrf, req.get("x-csrf-token"))) return res.status(403).json({ success:false,message:"CSRF token missing or invalid" });
   next();
@@ -21,4 +50,4 @@ function errorHandler(err, _req, res, _next) {
   if (status >= 500) console.error("Request failed:", { status, name: err.name || "Error", code: typeof err.code === "string" ? err.code : undefined });
   res.status(status).json({ success:false,message:status >= 500 ? "The service is temporarily unavailable. Please try again shortly." : err.message || "Request failed" });
 }
-module.exports = { csrfGuard, errorHandler };
+module.exports = { csrfGuard, errorHandler, isAllowedOrigin };
