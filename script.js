@@ -559,8 +559,13 @@ function bindAccountForms() {
         if (values.password !== values.confirmPassword) { accountMessage("Passwords do not match.", true); return; }
         try {
             const result = await apiRequest("/api/auth/register", { method: "POST", body: JSON.stringify(values) });
-            const token = result.developmentVerificationToken ? `?verificationToken=${encodeURIComponent(result.developmentVerificationToken)}` : "";
-            window.location.href = `account.html${token}`;
+            if (result.developmentVerificationToken) {
+                window.location.href = `account.html?verificationToken=${encodeURIComponent(result.developmentVerificationToken)}`;
+                return;
+            }
+            register.reset();
+            document.getElementById("registerRole")?.dispatchEvent(new Event("change"));
+            accountMessage("Account created. Check your email for the verification link, then sign in.");
         } catch (error) { accountMessage(error.message, true); }
     });
 
