@@ -15,7 +15,7 @@ npm install
 Copy-Item .env.example .env
 ```
 
-Set `MONGO_URI` to the Atlas connection string and replace `JWT_SECRET` with a unique random string of at least 32 characters. Keep `.env` private; it is ignored by Git. Set `ALLOWED_ORIGINS` to the exact frontend origins if the frontend will be served from a separate origin. Same-origin hosting is the intended setup.
+Set `MONGO_URI` to the Atlas connection string and replace `JWT_SECRET` with a unique random string of at least 32 characters. The backend also accepts the legacy `MONGODB_URI` key for existing private local setups; use `MONGO_URI` for new deployments. Keep `.env` private; it is ignored by Git. Set `ALLOWED_ORIGINS` to the exact frontend origins if the frontend will be served from a separate origin. Same-origin hosting is the intended setup.
 
 ```powershell
 npm start
