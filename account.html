@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | NESTORA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body class="inner-page">
+    <header class="navbar inner-navbar">
+        <a href="index.html" class="logo"><span>NEST</span>ORA</a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="properties.html">Properties</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="account.html" class="active">Account</a>
+        </nav>
+        <button class="menu-btn" type="button" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+    </header>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a><a href="properties.html">Properties</a>
+        <a href="about.html">About</a><a href="contact.html">Contact</a><a href="account.html">Account</a>
+    </div>
+
+    <main class="account-page" id="accountApp">
+        <div class="account-heading">
+            <p class="section-label">NESTORA ACCOUNT</p>
+            <h1>Welcome to your<br><span>home base.</span></h1>
+        </div>
+        <p id="accountMessage" class="account-message" role="status" hidden></p>
+
+        <section id="loggedOut" class="account-auth-grid">
+            <div class="account-panel">
+                <h2>Sign in</h2>
+                <form id="loginForm" class="account-form">
+                    <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                    <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+                    <button class="form-submit" type="submit">Sign in</button>
+                </form>
+                <p>Sign in as: <a href="buyer-login.html">Buyer</a> · <a href="broker-login.html">Broker</a> · <a href="admin-login.html">Admin</a></p>
+                <form id="forgotForm" class="inline-form">
+                    <label>Forgot your password? Enter your email<input name="email" type="email" required></label>
+                    <button class="account-action" type="submit">Send reset instructions</button>
+                </form>
+                <form id="resetForm" class="inline-form">
+                    <label>Reset token<input name="token" minlength="64" maxlength="64" required></label>
+                    <label>New password<input name="password" type="password" minlength="10" required></label>
+                    <button class="account-action" type="submit">Reset password</button>
+                </form>
+            </div>
+            <div class="account-panel">
+                <h2>Create an account</h2>
+                <form id="registerForm" class="account-form">
+                    <label>Full name<input name="name" minlength="2" maxlength="100" autocomplete="name" required></label>
+                    <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                    <label>Phone<input name="phone" type="tel" maxlength="30" autocomplete="tel" required></label>
+                    <label>Password<input name="password" type="password" minlength="10" autocomplete="new-password" required></label>
+                    <label>Confirm password<input name="confirmPassword" type="password" minlength="10" autocomplete="new-password" required></label>
+                    <label>Account type
+                        <select name="role" id="registerRole">
+                            <option value="buyer">Buyer</option>
+                            <option value="broker">Broker</option>
+                            <option value="seller">Seller</option>
+                        </select>
+                    </label>
+                    <div id="brokerFields" hidden>
+                        <label>Agency name<input name="agencyName" maxlength="100"></label>
+                        <label>License / registration number<input name="licenseNumber" maxlength="100"></label>
+                        <label>Professional introduction<textarea name="description" rows="3" maxlength="2000"></textarea></label>
+                        <label>Areas served (comma separated)<input name="areasServed" placeholder="Pune, Mumbai"></label>
+                    </div>
+                    <div id="sellerFields" hidden>
+                        <label>Seller type<select name="sellerType" id="sellerType"><option value="individual">Individual owner</option><option value="company">Company</option></select></label>
+                        <label id="organizationNameRow" hidden>Organization name<input name="organizationName" maxlength="120"></label>
+                    </div>
+                    <button class="form-submit" type="submit">Create account</button>
+                </form>
+                <form id="verifyForm" class="inline-form">
+                    <label>Email verification token<input name="token" minlength="64" maxlength="64" required></label>
+                    <button class="account-action" type="submit">Verify email</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="accountDashboard" hidden>
+            <div class="account-panel account-welcome">
+                <div><h2 id="accountName"></h2><p id="accountRole"></p></div>
+                <button id="logoutButton" class="account-action" type="button">Sign out</button>
+                <form id="dashboardVerifyForm" class="inline-form" hidden>
+                    <label>Verification token<input name="token" minlength="64" maxlength="64" required></label>
+                    <button class="account-action" type="submit">Verify email</button>
+                </form>
+            </div>
+            <div class="account-panel">
+                <h2>Profile</h2>
+                <form id="profileForm" class="account-form account-form-row">
+                    <label>Full name<input name="name" required minlength="2" maxlength="100"></label>
+                    <label>Phone<input name="phone" maxlength="30"></label>
+                    <button class="account-action" type="submit">Save profile</button>
+                </form>
+                <form id="changePasswordForm" class="account-form account-form-row">
+                    <label>Current password<input name="currentPassword" type="password" required></label>
+                    <label>New password<input name="newPassword" type="password" minlength="10" required></label>
+                    <button class="account-action" type="submit">Change password</button>
+                </form>
+            </div>
+            <section id="buyerPanel" class="account-panel" hidden>
+                <h2>Saved properties</h2><div id="favoritesList"></div>
+            </section>
+            <section id="brokerPanel" class="account-panel" hidden>
+                <h2>Broker workspace</h2>
+                <p id="brokerStats"></p>
+                <form id="brokerProfileForm" class="account-form account-form-row">
+                    <label>Professional name<input id="brokerFullName" name="fullName" required></label>
+                    <label>Agency<input id="brokerAgency" name="agencyName"></label>
+                    <label>Phone<input id="brokerPhone" name="phone"></label>
+                    <label>Profile photo URL<input id="brokerPhoto" name="profilePhoto" type="url"></label>
+                    <label>Areas served<input id="brokerAreas" name="areasServed" placeholder="Pune, Mumbai"></label>
+                    <label>About<textarea id="brokerDescription" name="description" rows="3"></textarea></label>
+                    <button class="account-action" type="submit">Save broker profile</button>
+                </form>
+                <h3>Submit a property</h3>
+                <form id="propertyForm" class="account-form account-form-grid">
+                    <label>Title<input name="title" minlength="3" maxlength="160" required></label>
+                    <label>Property type<select name="propertyType"><option>Apartment</option><option>Villa</option><option>Penthouse</option><option>House</option><option>Plot</option><option>Commercial</option></select></label>
+                    <label>Listing type<select name="listingType"><option>Sale</option><option>Rent</option></select></label>
+                    <label>Price (INR)<input name="price" type="number" min="0" required></label>
+                    <label>Location<input name="location" required></label>
+                    <label>City<input name="city" required></label>
+                    <label>State<input name="state" required></label>
+                    <label>Address<input name="address" minlength="5" required></label>
+                    <label>Bedrooms<input name="bedrooms" type="number" min="0" required></label>
+                    <label>Bathrooms<input name="bathrooms" type="number" min="0" required></label>
+                    <label>Area (sq.ft)<input name="areaSqFt" type="number" min="1" required></label>
+                    <label class="account-wide">Amenities (comma separated)<input name="amenities"></label>
+                    <label class="account-wide image-upload-control">Listing photos<input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple><small class="image-upload-hint">Choose up to 6 JPG, PNG, or WebP photos, 5 MB each. You will see previews before submitting.</small><div class="image-preview-grid" data-image-preview hidden></div><div class="site-feedback image-upload-feedback" data-image-feedback hidden></div></label>
+                    <label class="account-wide">Description<textarea name="description" rows="5" minlength="20" required></textarea></label>
+                    <button class="form-submit" type="submit">Submit for approval</button>
+                </form>
+                <h3>Your listings</h3><div id="brokerListings"></div>
+            </section>
+            <section id="adminPanel" class="account-panel" hidden>
+                <h2>Administrator dashboard</h2>
+                <div id="adminStats" class="admin-stats"></div>
+                <h3>Users</h3><div id="adminUsers"></div>
+                <h3>Broker verification</h3><div id="adminBrokers"></div>
+                <h3>Property approvals</h3><div id="adminProperties"></div>
+                <h3>Enquiries</h3><div id="adminInquiries"></div>
+                <h3>Visit requests</h3><div id="adminVisits"></div>
+                <h3>Audit log</h3><div id="adminAuditLogs"></div>
+            </section>
+            <section class="account-panel">
+                <h2>My enquiries</h2><div id="inquiriesList"></div>
+            </section>
+            <section class="account-panel">
+                <h2>My visits</h2><div id="visitsList"></div>
+            </section>
+        </section>
+    </main>
+    <script src="api-client.js"></script><script src="frontend-auth.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

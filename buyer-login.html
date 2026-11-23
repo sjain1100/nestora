@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Sign In | NESTORA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page">
+    <header class="navbar inner-navbar">
+        <a href="index.html" class="logo"><span>NEST</span>ORA</a>
+        <nav class="nav-links"><a href="properties.html">Properties</a><a href="account.html">Account</a></nav>
+    </header>
+    <main class="account-page">
+        <div class="account-heading"><p class="section-label">BUYER PORTAL</p><h1>Welcome <span>home.</span></h1></div>
+        <p id="accountMessage" class="account-message" role="status" hidden></p>
+        <section class="account-panel">
+            <h2>Buyer sign in</h2>
+            <form id="loginForm" data-role="buyer" class="account-form">
+                <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+                <button class="form-submit" type="submit">Sign in as buyer</button>
+            </form>
+            <p>New to Nestora? <a href="account.html">Create a buyer account</a>.</p>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

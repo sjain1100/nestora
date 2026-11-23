@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Us | NESTORA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="demo.css">
+</head>
+
+<body class="inner-page">
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar inner-navbar">
+        <a href="index.html" class="logo"><span>NEST</span>ORA</a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="properties.html">Properties</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="account.html">Account</a>
+        </nav>
+        <a href="contact.html" class="nav-btn">Schedule a Visit</a>
+        <button class="menu-btn" type="button" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="properties.html">Properties</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="account.html">Account</a>
+    </div>
+
+
+    <!-- ================= CONTACT HERO ================= -->
+
+    <section class="contact-hero">
+
+        <div class="contact-hero-content">
+
+            <span class="section-label">
+                GET IN TOUCH
+            </span>
+
+            <h1>
+                Let's talk about<br>
+                <span>your next move.</span>
+            </h1>
+
+            <p>
+                Whether you're buying, selling, or simply exploring
+                your options, our property advisors are here to help.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CONTACT INFORMATION ================= -->
+
+    <section class="contact-section">
+
+        <div class="contact-container">
+
+            <div class="contact-info">
+
+                <span class="section-label">
+                    CONTACT NESTORA
+                </span>
+
+                <h2>
+                    We'd love to<br>
+                    hear from you.
+                </h2>
+
+                <p>
+                    Have a question about a property or want to
+                    discuss your real estate goals? Reach out to our
+                    team and we'll get back to you shortly.
+                </p>
+
+
+                <!-- Phone -->
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+
+                    <div>
+                        <span>Call Us</span>
+                        <a href="tel:+912040002200">
+                            +91 20 4000 2200
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+
+                    <div>
+                        <span>Email Us</span>
+                        <a href="mailto:hello@nestora.com">
+                            hello@nestora.com
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <!-- Office -->
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div>
+                        <span>Visit Our Office</span>
+                        <p>
+                            Baner, Pune,<br>
+                            Maharashtra, India
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Office Hours -->
+
+                <div class="office-hours">
+
+                    <h4>Office Hours</h4>
+
+                    <div class="hours-row">
+                        <span>Monday – Friday</span>
+                        <span>9:00 AM – 7:00 PM</span>
+                    </div>
+
+                    <div class="hours-row">
+                        <span>Saturday</span>
+                        <span>10:00 AM – 5:00 PM</span>
+                    </div>
+
+                    <div class="hours-row">
+                        <span>Sunday</span>
+                        <span>By Appointment</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CONTACT FORM ================= -->
+
+            <div class="contact-form-card">
+
+                <div class="form-heading">
+
+                    <span class="section-label">
+                        SEND A MESSAGE
+                    </span>
+
+                    <h3>
+                        Tell us what you're looking for.
+                    </h3>
+
+                    <p>
+                        Fill out the form and one of our advisors
+                        will contact you.
+                    </p>
+
+                </div>
+
+                <form onsubmit="submitContactForm(event)">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label>Full Name</label>
+
+                            <input
+                                type="text"
+                                placeholder="Your name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address</label>
+
+                            <input
+                                type="email"
+                                placeholder="you@example.com"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+
+                            <input
+                                type="tel"
+                                placeholder="+91 XXXXX XXXXX"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>I'm Interested In</label>
+
+                            <select required>
+
+                                <option value="">
+                                    Select an option
+                                </option>
+
+                                <option>
+                                    Buying a Property
+                                </option>
+
+                                <option>
+                                    Selling a Property
+                                </option>
+
+                                <option>
+                                    Renting a Property
+                                </option>
+
+                                <option>
+                                    Investment
+                                </option>
+
+                                <option>
+                                    General Enquiry
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Message</label>
+
+                        <textarea
+                            rows="6"
+                            placeholder="Tell us a little about what you're looking for..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <button type="submit" class="form-submit">
+
+                        Send Message
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAP ================= -->
+
+    <section class="contact-map-section">
+
+        <div class="contact-map-container">
+
+            <div class="fake-map">
+
+                <div class="map-overlay">
+
+                    <div class="map-pin">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div>
+                        <strong>NESTORA</strong>
+                        <span>Baner, Pune</span>
+                    </div>
+
+                </div>
+
+                <div class="map-label map-label-1">
+                    Baner Road
+                </div>
+
+                <div class="map-label map-label-2">
+                    Balewadi
+                </div>
+
+                <div class="map-label map-label-3">
+                    Aundh
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="contact-cta">
+
+        <div class="contact-cta-content">
+
+            <span class="section-label">
+                YOUR NEXT HOME
+            </span>
+
+            <h2>
+                Let's find a place<br>
+                you'll love to live.
+            </h2>
+
+            <a href="properties.html" class="primary-button">
+                Explore Properties
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo">
+                    NESTORA<span>.</span>
+                </a>
+
+                <p>
+                    Exceptional homes.<br>
+                    Thoughtfully chosen.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+                    <h4>Explore</h4>
+
+                    <a href="index.html">Home</a>
+                    <a href="properties.html">Properties</a>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+
+
+                <div>
+                    <h4>Follow Us</h4>
+
+                    <a href="#">Instagram</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Facebook</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 NESTORA. All rights reserved.
+            </span>
+
+            <span>
+                Designed with intention.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="api-client.js"></script><script src="frontend-auth.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

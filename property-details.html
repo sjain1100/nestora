@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Property details | NESTORA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="inner-page">
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar inner-navbar">
+
+        <a href="index.html" class="logo">
+            <span>NEST</span>ORA
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="properties.html" class="active">Properties</a>
+
+            <a href="about.html">About</a>
+
+            <a href="contact.html">Contact</a>
+            <a href="account.html">Account</a>
+
+        </nav>
+
+        <a href="contact.html" class="nav-btn">
+            Schedule Visit
+        </a>
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </header>
+
+
+    <!-- ================= MOBILE MENU ================= -->
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="properties.html">Properties</a>
+
+        <a href="about.html">About</a>
+
+        <a href="contact.html">Contact</a>
+        <a href="account.html">Account</a>
+
+        <a href="contact.html" class="mobile-visit">
+            Schedule Visit
+        </a>
+
+    </div>
+
+
+    <!-- ================= PROPERTY HERO ================= -->
+
+    <section class="detail-hero">
+
+        <div class="detail-main-image">
+
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90"
+                alt="The White Villa">
+
+            <span class="detail-tag">
+                FEATURED PROPERTY
+            </span>
+
+            <button class="detail-heart"
+                onclick="toggleFavorite(this)">
+
+                <i class="fa-regular fa-heart"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="detail-thumbnails">
+
+            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=500&q=80"
+                alt="Living Room">
+
+            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=500&q=80"
+                alt="Interior">
+
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80"
+                alt="House Exterior">
+
+            <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=500&q=80"
+                alt="Luxury Interior">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PROPERTY INFORMATION ================= -->
+
+    <section class="detail-section">
+
+        <div class="detail-content">
+
+
+            <!-- LEFT -->
+
+            <div class="detail-left">
+
+                <div class="detail-heading">
+
+                    <p class="section-label">
+                        PUNE, MAHARASHTRA
+                    </p>
+
+                    <h1>
+                        The White Villa
+                    </h1>
+
+                    <p class="detail-address">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Baner, Pune, Maharashtra
+                    </p>
+
+                </div>
+
+
+                <!-- PROPERTY STATS -->
+
+                <div class="property-stats">
+
+                    <div>
+                        <i class="fa-solid fa-bed"></i>
+                        <strong>4</strong>
+                        <span>Bedrooms</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-bath"></i>
+                        <strong>4</strong>
+                        <span>Bathrooms</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-vector-square"></i>
+                        <strong>3,200</strong>
+                        <span>sq.ft</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-car"></i>
+                        <strong>2</strong>
+                        <span>Parking</span>
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="detail-block">
+
+                    <h2>
+                        About this property
+                    </h2>
+
+                    <p id="detailDescription">Loading property description…</p>
+
+                </div>
+
+
+                <!-- AMENITIES -->
+
+                <div class="detail-block">
+
+                    <h2>
+                        Amenities
+                    </h2>
+
+                    <div class="amenities">
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-water-ladder"></i>
+                            <span>Private Pool</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-dumbbell"></i>
+                            <span>Private Gym</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-tree"></i>
+                            <span>Garden</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-car"></i>
+                            <span>2 Car Garage</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>24/7 Security</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-wifi"></i>
+                            <span>Smart Home</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-sun"></i>
+                            <span>Natural Lighting</span>
+                        </div>
+
+                        <div class="amenity">
+                            <i class="fa-solid fa-elevator"></i>
+                            <span>Private Lift</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROPERTY DETAILS -->
+
+                <div class="detail-block">
+
+                    <h2>
+                        Property details
+                    </h2>
+
+                    <div class="details-table">
+                        <div><span>Property type</span><strong id="detailPropertyType">—</strong></div>
+                        <div><span>Listing type</span><strong id="detailListingType">—</strong></div>
+                        <div><span>Built-up area</span><strong id="detailArea">—</strong></div>
+                        <div><span>Furnishing</span><strong id="detailFurnishing">—</strong></div>
+                        <div><span>Bedrooms / bathrooms</span><strong id="detailRoomCount">—</strong></div>
+                        <div><span>Parking</span><strong id="detailParkingValue">—</strong></div>
+                        <div><span>Floor</span><strong id="detailFloor">—</strong></div>
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="detail-block">
+
+                    <h2>
+                        Location
+                    </h2>
+
+                    <div class="fake-map">
+
+                        <div class="map-center">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span id="detailLocation">Loading location…</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDEBAR -->
+
+            <aside class="detail-sidebar">
+
+                <div class="price-card">
+
+                    <p id="detailListingPriceLabel">Listing price</p>
+                    <h2 id="detailPrice">Loading…</h2>
+                    <span id="detailPricePerArea" hidden></span>
+
+                    <hr>
+
+                    <button
+                        class="schedule-btn"
+                        onclick="openVisitModal()">
+
+                        Schedule a Visit
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                    <button
+                        class="contact-agent-btn"
+                        type="button"
+                        onclick="focusPropertyEnquiry()">
+                        <i class="fa-solid fa-message"></i>
+                        Ask about this property
+                    </button>
+
+                </div>
+
+
+                <!-- AGENT -->
+
+                <div class="agent-card" hidden>
+                    <p class="agent-label">PROPERTY BROKER</p>
+                    <div class="agent-info">
+                        <div class="agent-avatar" id="detailBrokerAvatar">N</div>
+                        <div>
+                            <h3 id="detailBrokerName">Property broker</h3>
+                            <p id="detailBrokerMeta">Broker profile</p>
+                        </div>
+                    </div>
+                    <p class="agent-description" id="detailBrokerBio"></p>
+                    <a href="contact.html" class="agent-link">Contact Nestora <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= VISIT MODAL ================= -->
+
+    <div class="visit-modal" id="visitModal">
+
+        <div class="visit-box">
+
+            <button class="close-modal"
+                onclick="closeVisitModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+            <p class="section-label">
+                PRIVATE VIEWING
+            </p>
+
+            <h2>
+                Schedule a visit
+            </h2>
+
+            <p>
+                Fill in your details and our property advisor
+                will contact you shortly.
+            </p>
+
+
+            <form onsubmit="submitVisit(event)">
+
+                <input
+                    type="text"
+                    placeholder="Your Name"
+                    required>
+
+                <input
+                    type="email"
+                    placeholder="Email Address"
+                    required>
+
+                <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    required>
+
+                <input type="date" name="visitDate" required>
+                <input type="time" name="visitTime" required>
+
+                <button type="submit">
+                    Request Visit
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta-section">
+
+        <p class="section-label">
+            INTERESTED IN THIS PROPERTY?
+        </p>
+
+        <h2>
+            Let's make this<br>
+            your next home.
+        </h2>
+
+        <a href="contact.html" class="cta-btn">
+            Contact Nestora
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <div class="logo">
+                    <span>NEST</span>ORA
+                </div>
+
+                <p>
+                    Exceptional properties.<br>
+                    Extraordinary living.
+                </p>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Explore</h4>
+
+                <a href="index.html">Home</a>
+                <a href="properties.html">Properties</a>
+                <a href="about.html">About Us</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Company</h4>
+
+                <a href="contact.html">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Follow Us</h4>
+
+                <div class="socials">
+
+                    <a href="#">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Nestora. All rights reserved.
+            </p>
+
+            <p>
+                Designed for modern living.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <link rel="stylesheet" href="demo.css">
+    <script src="api-client.js"></script><script src="frontend-auth.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

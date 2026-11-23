@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Properties | NESTORA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="inner-page">
+
+    <!-- NAVBAR -->
+
+    <header class="navbar inner-navbar">
+
+        <a href="index.html" class="logo">
+            <span>NEST</span>ORA
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="properties.html" class="active">Properties</a>
+
+            <a href="about.html">About</a>
+
+            <a href="contact.html">Contact</a>
+            <a href="account.html">Account</a>
+
+        </nav>
+
+        <a href="contact.html" class="nav-btn">
+            Schedule Visit
+        </a>
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </header>
+
+
+    <!-- MOBILE MENU -->
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="properties.html">Properties</a>
+
+        <a href="about.html">About</a>
+
+        <a href="contact.html">Contact</a>
+        <a href="account.html">Account</a>
+
+        <a href="contact.html" class="mobile-visit">
+            Schedule Visit
+        </a>
+
+    </div>
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <p class="section-label">
+                NESTORA COLLECTION
+            </p>
+
+            <h1>
+                Find your<br>
+                <span>perfect home.</span>
+            </h1>
+
+            <p>
+                Explore our collection of carefully selected
+                homes, apartments, villas and premium residences.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROPERTY SEARCH -->
+
+    <section class="property-search-section">
+
+        <div class="property-search">
+
+            <div class="filter-item">
+
+                <label for="filterLocation">Location</label>
+
+                <select id="filterLocation">
+                    <option value="all">All Locations</option>
+                    <option value="pune">Pune</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="delhi">Delhi</option>
+                </select>
+
+            </div>
+
+
+            <div class="filter-item">
+
+                <label for="filterType">Property Type</label>
+
+                <select id="filterType">
+                    <option value="all">All Types</option>
+                    <option value="Villa">Villa</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Penthouse">Penthouse</option>
+                    <option value="Independent House">Independent House</option>
+                    <option value="House">House</option>
+                    <option value="Plot">Plot</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Office">Office</option>
+                    <option value="Shop">Shop</option>
+                    <option value="Other">Other</option>
+                </select>
+
+            </div>
+
+
+            <div class="filter-item">
+
+                <label for="filterPrice">Price Range</label>
+
+                <select id="filterPrice">
+                    <option value="all">Any Price</option>
+                    <option value="under50">Under ₹50L</option>
+                    <option value="50to100">₹50L - ₹1 Cr</option>
+                    <option value="2">₹1 Cr - ₹2 Cr</option>
+                    <option value="3">₹2 Cr+</option>
+                </select>
+
+            </div>
+
+
+            <button class="filter-btn" type="button" aria-controls="propertiesGrid" onclick="filterProperties()">
+
+                <i class="fa-solid fa-sliders"></i>
+
+                Apply Filters
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROPERTIES -->
+
+    <section class="section properties-section" id="propertiesResults">
+
+        <div class="properties-top">
+
+            <div>
+
+                <p class="section-label">
+                    AVAILABLE PROPERTIES
+                </p>
+
+                <h2>
+                    Explore our collection
+                </h2>
+
+            </div>
+
+            <p id="propertyCount" role="status" aria-live="polite">
+                Loading properties…
+            </p>
+
+        </div>
+
+
+        <div class="properties-grid" id="propertiesGrid">
+
+
+            <!-- PROPERTY 1 -->
+
+            <article class="listing-card"
+                data-location="pune"
+                data-type="villa"
+                data-price="3">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80"
+                        alt="Luxury Villa">
+
+                    <span class="listing-tag">
+                        FEATURED
+                    </span>
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Pune, Maharashtra
+                    </p>
+
+                    <h3>
+                        The White Villa
+                    </h3>
+
+                    <p class="listing-specs">
+                        4 Beds • 4 Baths • 3,200 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹3.25 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 2 -->
+
+            <article class="listing-card"
+                data-location="mumbai"
+                data-type="apartment"
+                data-price="3">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80"
+                        alt="Luxury Apartment">
+
+                    <span class="listing-tag">
+                        NEW
+                    </span>
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Mumbai, Maharashtra
+                    </p>
+
+                    <h3>
+                        Skyline Residence
+                    </h3>
+
+                    <p class="listing-specs">
+                        3 Beds • 3 Baths • 2,100 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹2.10 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 3 -->
+
+            <article class="listing-card"
+                data-location="bangalore"
+                data-type="penthouse"
+                data-price="3">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=80"
+                        alt="Penthouse">
+
+                    <span class="listing-tag">
+                        PREMIUM
+                    </span>
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Bangalore, Karnataka
+                    </p>
+
+                    <h3>
+                        The Grand Penthouse
+                    </h3>
+
+                    <p class="listing-specs">
+                        4 Beds • 5 Baths • 4,500 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹4.80 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 4 -->
+
+            <article class="listing-card"
+                data-location="pune"
+                data-type="apartment"
+                data-price="2">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80"
+                        alt="Modern Apartment">
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Pune, Maharashtra
+                    </p>
+
+                    <h3>
+                        Garden View Residence
+                    </h3>
+
+                    <p class="listing-specs">
+                        3 Beds • 3 Baths • 1,850 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹1.65 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 5 -->
+
+            <article class="listing-card"
+                data-location="delhi"
+                data-type="villa"
+                data-price="3">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80"
+                        alt="Luxury Villa">
+
+                    <span class="listing-tag">
+                        EXCLUSIVE
+                    </span>
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        New Delhi
+                    </p>
+
+                    <h3>
+                        Heritage Estate
+                    </h3>
+
+                    <p class="listing-specs">
+                        5 Beds • 5 Baths • 5,200 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹5.20 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 6 -->
+
+            <article class="listing-card"
+                data-location="mumbai"
+                data-type="apartment"
+                data-price="2">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=80"
+                        alt="Apartment">
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Mumbai, Maharashtra
+                    </p>
+
+                    <h3>
+                        Oceanfront Heights
+                    </h3>
+
+                    <p class="listing-specs">
+                        3 Beds • 2 Baths • 1,700 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹1.85 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 7 -->
+
+            <article class="listing-card"
+                data-location="bangalore"
+                data-type="villa"
+                data-price="2">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1000&q=80"
+                        alt="Modern Villa">
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Bangalore, Karnataka
+                    </p>
+
+                    <h3>
+                        Green Valley Villa
+                    </h3>
+
+                    <p class="listing-specs">
+                        4 Beds • 4 Baths • 2,800 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹1.95 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 8 -->
+
+            <article class="listing-card"
+                data-location="pune"
+                data-type="penthouse"
+                data-price="3">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80"
+                        alt="Penthouse">
+
+                    <span class="listing-tag">
+                        PREMIUM
+                    </span>
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Pune, Maharashtra
+                    </p>
+
+                    <h3>
+                        Sky Garden Penthouse
+                    </h3>
+
+                    <p class="listing-specs">
+                        4 Beds • 4 Baths • 3,900 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹3.80 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROPERTY 9 -->
+
+            <article class="listing-card"
+                data-location="delhi"
+                data-type="apartment"
+                data-price="2">
+
+                <div class="listing-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80"
+                        alt="Premium Apartment">
+
+                    <button class="heart-btn"
+                        onclick="toggleFavorite(this)">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="listing-info">
+
+                    <p class="listing-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        New Delhi
+                    </p>
+
+                    <h3>
+                        Central Park Residence
+                    </h3>
+
+                    <p class="listing-specs">
+                        3 Beds • 3 Baths • 2,200 sq.ft
+                    </p>
+
+                    <div class="listing-bottom">
+
+                        <strong>₹1.45 Cr</strong>
+
+                        <a href="property-details.html">
+                            Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta-section">
+
+        <p class="section-label">
+            NEED HELP FINDING A HOME?
+        </p>
+
+        <h2>
+            Let our experts<br>
+            find it for you.
+        </h2>
+
+        <a href="contact.html" class="cta-btn">
+            Talk to an Expert
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <div class="logo">
+                    <span>NEST</span>ORA
+                </div>
+
+                <p>
+                    Exceptional properties.<br>
+                    Extraordinary living.
+                </p>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Explore</h4>
+
+                <a href="index.html">Home</a>
+                <a href="properties.html">Properties</a>
+                <a href="about.html">About Us</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Company</h4>
+
+                <a href="contact.html">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h4>Follow Us</h4>
+
+                <div class="socials">
+
+                    <a href="#">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Nestora. All rights reserved.
+            </p>
+
+            <p>
+                Designed for modern living.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <link rel="stylesheet" href="demo.css">
+    <script src="api-client.js"></script><script src="frontend-auth.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

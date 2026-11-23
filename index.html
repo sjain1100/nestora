@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NESTORA | Luxury Real Estate</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="demo.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span>NEST</span>ORA
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="index.html" class="active">Home</a>
+
+            <a href="properties.html">Properties</a>
+
+            <a href="about.html">About</a>
+
+            <a href="contact.html">Contact</a>
+            <a href="account.html">Account</a>
+
+        </nav>
+
+        <a href="contact.html" class="nav-btn">
+            Schedule Visit
+        </a>
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </header>
+
+
+    <!-- ================= MOBILE MENU ================= -->
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="index.html">Home</a>
+
+        <a href="properties.html">Properties</a>
+
+        <a href="about.html">About</a>
+
+        <a href="contact.html">Contact</a>
+        <a href="account.html">Account</a>
+
+        <a href="contact.html" class="mobile-visit">
+            Schedule Visit
+        </a>
+
+    </div>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <p class="hero-small">
+                PREMIUM REAL ESTATE
+            </p>
+
+            <h1>
+                Find a place<br>
+                <span>you'll love</span> to live.
+            </h1>
+
+            <p class="hero-description">
+                Discover exceptional homes, apartments and villas
+                designed for the way you want to live.
+            </p>
+
+            <a href="properties.html" class="hero-btn">
+                Explore Properties
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- SEARCH BOX -->
+
+        <div class="search-box">
+
+            <div class="search-item">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <div>
+                    <small>Location</small>
+                    <select id="location">
+                        <option value="">Any Location</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="pune">Pune</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="bangalore">Bangalore</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="search-item">
+
+                <i class="fa-solid fa-house"></i>
+
+                <div>
+                    <small>Property Type</small>
+
+                    <select id="propertyType">
+                        <option value="">Any Type</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="villa">Villa</option>
+                        <option value="penthouse">Penthouse</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-item">
+
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                <div>
+                    <small>Budget</small>
+
+                    <select id="budget">
+                        <option value="">Any Budget</option>
+                        <option value="50">Under ₹50L</option>
+                        <option value="100">₹50L - ₹1Cr</option>
+                        <option value="200">₹1Cr - ₹2Cr</option>
+                        <option value="500">₹2Cr+</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button class="search-btn" onclick="searchProperties()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURED ================= -->
+
+    <section class="section featured">
+
+        <div class="section-heading">
+
+            <div>
+                <p class="section-label">
+                    FEATURED PROPERTIES
+                </p>
+
+                <h2>
+                    Homes worth<br>
+                    <span>coming home to.</span>
+                </h2>
+            </div>
+
+            <a href="properties.html" class="view-all">
+                View all properties
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="property-grid">
+
+
+            <!-- PROPERTY 1 -->
+
+            <div class="property-card">
+
+                <div class="property-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80"
+                         alt="Luxury Villa">
+
+                    <span class="property-tag">
+                        FEATURED
+                    </span>
+
+                    <button class="heart-btn"
+                            onclick="toggleFavorite(this)">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                </div>
+
+                <div class="property-info">
+
+                    <div class="property-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Pune, Maharashtra
+                    </div>
+
+                    <h3>
+                        The White Villa
+                    </h3>
+
+                    <p class="property-details">
+                        4 Beds &nbsp; • &nbsp; 4 Baths &nbsp; • &nbsp; 3,200 sq.ft
+                    </p>
+
+                    <div class="property-bottom">
+
+                        <strong>
+                            ₹3.25 Cr
+                        </strong>
+
+                        <a href="property-details.html">
+                            View Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROPERTY 2 -->
+
+            <div class="property-card">
+
+                <div class="property-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80"
+                         alt="Modern Apartment">
+
+                    <span class="property-tag">
+                        NEW
+                    </span>
+
+                    <button class="heart-btn"
+                            onclick="toggleFavorite(this)">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                </div>
+
+                <div class="property-info">
+
+                    <div class="property-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Mumbai, Maharashtra
+                    </div>
+
+                    <h3>
+                        Skyline Residence
+                    </h3>
+
+                    <p class="property-details">
+                        3 Beds &nbsp; • &nbsp; 3 Baths &nbsp; • &nbsp; 2,100 sq.ft
+                    </p>
+
+                    <div class="property-bottom">
+
+                        <strong>
+                            ₹2.10 Cr
+                        </strong>
+
+                        <a href="property-details.html">
+                            View Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROPERTY 3 -->
+
+            <div class="property-card">
+
+                <div class="property-image">
+
+                    <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=80"
+                         alt="Luxury Penthouse">
+
+                    <span class="property-tag">
+                        PREMIUM
+                    </span>
+
+                    <button class="heart-btn"
+                            onclick="toggleFavorite(this)">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                </div>
+
+                <div class="property-info">
+
+                    <div class="property-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Bangalore, Karnataka
+                    </div>
+
+                    <h3>
+                        The Grand Penthouse
+                    </h3>
+
+                    <p class="property-details">
+                        4 Beds &nbsp; • &nbsp; 5 Baths &nbsp; • &nbsp; 4,500 sq.ft
+                    </p>
+
+                    <div class="property-bottom">
+
+                        <strong>
+                            ₹4.80 Cr
+                        </strong>
+
+                        <a href="property-details.html">
+                            View Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= WHY NESTORA ================= -->
+
+    <section class="why-section">
+
+        <div class="why-image">
+
+            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80"
+                 alt="Modern luxury home">
+
+        </div>
+
+
+        <div class="why-content">
+
+            <p class="section-label">
+                WHY NESTORA
+            </p>
+
+            <h2>
+                More than a property.<br>
+                <span>A place to belong.</span>
+            </h2>
+
+            <p>
+                We believe finding a home should feel exciting,
+                personal and effortless. Nestora connects you with
+                carefully selected properties in the most desirable
+                locations.
+            </p>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+
+                    <div>
+                        <h4>
+                            Curated Properties
+                        </h4>
+
+                        <p>
+                            Handpicked homes that meet our standards.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+                        <h4>
+                            Trusted Experience
+                        </h4>
+
+                        <p>
+                            Transparent and secure property discovery.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+
+                    <div>
+                        <h4>
+                            Expert Guidance
+                        </h4>
+
+                        <p>
+                            Personal assistance throughout your journey.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= LOCATIONS ================= -->
+
+    <section class="section locations">
+
+        <div class="center-heading">
+
+            <p class="section-label">
+                EXPLORE LOCATIONS
+            </p>
+
+            <h2>
+                Find your place<br>
+                <span>in the city.</span>
+            </h2>
+
+        </div>
+
+
+        <div class="location-grid">
+
+            <a href="properties.html" class="location-card">
+
+                <img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80">
+
+                <div class="location-overlay">
+
+                    <h3>
+                        Mumbai
+                    </h3>
+
+                    <span>
+                        124 Properties
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <a href="properties.html" class="location-card">
+
+                <img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80">
+
+                <div class="location-overlay">
+
+                    <h3>
+                        Pune
+                    </h3>
+
+                    <span>
+                        86 Properties
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <a href="properties.html" class="location-card">
+
+                <img src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80">
+
+                <div class="location-overlay">
+
+                    <h3>
+                        Bangalore
+                    </h3>
+
+                    <span>
+                        102 Properties
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta-section">
+
+        <div>
+
+            <p class="section-label">
+                YOUR NEXT CHAPTER STARTS HERE
+            </p>
+
+            <h2>
+                Ready to find<br>
+                your dream home?
+            </h2>
+
+            <a href="contact.html" class="cta-btn">
+                Talk to an Expert
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <div class="logo">
+                    <span>NEST</span>ORA
+                </div>
+
+                <p>
+                    Exceptional properties.<br>
+                    Extraordinary living.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="properties.html">
+                    Properties
+                </a>
+
+                <a href="about.html">
+                    About Us
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Company
+                </h4>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+                <a href="#">
+                    Privacy Policy
+                </a>
+
+                <a href="#">
+                    Terms
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Follow Us
+                </h4>
+
+                <div class="socials">
+
+                    <a href="#">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Nestora. All rights reserved.
+            </p>
+
+            <p>
+                Designed for modern living.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="api-client.js"></script><script src="frontend-auth.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

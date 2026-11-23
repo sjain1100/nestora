@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Sign In | NESTORA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page">
+    <header class="navbar inner-navbar">
+        <a href="index.html" class="logo"><span>NEST</span>ORA</a>
+        <nav class="nav-links"><a href="index.html">Home</a><a href="account.html">Account</a></nav>
+    </header>
+    <main class="account-page">
+        <div class="account-heading"><p class="section-label">ADMIN PORTAL</p><h1>Platform <span>control.</span></h1></div>
+        <p id="accountMessage" class="account-message" role="status" hidden></p>
+        <section class="account-panel">
+            <h2>Administrator sign in</h2>
+            <form id="loginForm" data-role="admin" class="account-form">
+                <label>Email<input name="email" type="email" autocomplete="username" required></label>
+                <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+                <button class="form-submit" type="submit">Sign in as administrator</button>
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
