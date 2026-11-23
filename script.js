@@ -1,3 +1,10 @@
+document.addEventListener("error", event => {
+    const image = event.target;
+    if (!(image instanceof HTMLImageElement) || image.dataset.nestoraFallback === "true") return;
+    image.dataset.nestoraFallback = "true";
+    image.src = "/assets/property-fallback.svg";
+}, true);
+
 async function apiRequest(url, options = {}) {
     if (!window.NestoraAPI) throw new Error("The NESTORA API client is unavailable");
     return window.NestoraAPI.request(url, options);
