@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Modern luxury home at dusk">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#252b32"/><stop offset=".58" stop-color="#76634f"/><stop offset="1" stop-color="#c49a68"/></linearGradient>
+    <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#26333a"/><stop offset="1" stop-color="#10191e"/></linearGradient>
+    <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#e4d7c4"/><stop offset="1" stop-color="#a99172"/></linearGradient>
+    <linearGradient id="ground" x2="0" y2="1"><stop stop-color="#5d654f"/><stop offset="1" stop-color="#202b26"/></linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1240" cy="235" r="115" fill="#e9c28c" opacity=".28" filter="url(#soft)"/>
+  <circle cx="1240" cy="235" r="62" fill="#f1d4a6" opacity=".68"/>
+  <path d="M0 495 260 355l210 128 260-195 250 198 210-125 410 180v359H0Z" fill="#343a39" opacity=".45"/>
+  <rect y="678" width="1600" height="222" fill="url(#ground)"/>
+  <path d="m192 500 272-143h716l248 143v232H192Z" fill="url(#wall)"/>
+  <path d="m150 512 303-179h754l268 179H150Z" fill="#282b2c"/>
+  <path d="M508 388h652v344H508Z" fill="url(#glass)"/>
+  <path d="M820 388v344M508 560h652" stroke="#c5b294" stroke-width="12" opacity=".72"/>
+  <path d="M274 533h190v199H274ZM1202 533h142v199h-142Z" fill="url(#glass)"/>
+  <path d="M320 572h100v100H320ZM1234 564h78v100h-78Z" fill="#d2a96f" opacity=".7"/>
+  <path d="M0 733h1600v167H0Z" fill="#1e2924" opacity=".65"/>
+  <path d="M545 757h540l190 143H355Z" fill="#b9a282" opacity=".33"/>
+  <g fill="#202b24"><path d="M103 720q-70-130 0-234 77 112 12 234Z"/><path d="M138 725q-25-165 78-229 37 137-45 241Z"/><path d="M1468 728q-40-142 44-239 64 132-12 244Z"/><path d="M1428 730q10-157-92-219-20 137 69 236Z"/></g>
+  <g fill="#d3b27e" opacity=".52"><rect x="352" y="588" width="7" height="108"/><rect x="1270" y="577" width="6" height="105"/><rect x="685" y="429" width="5" height="102"/><rect x="965" y="429" width="5" height="102"/></g>
+</svg>
