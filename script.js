@@ -565,7 +565,7 @@ function bindAccountForms() {
             }
             register.reset();
             document.getElementById("registerRole")?.dispatchEvent(new Event("change"));
-            accountMessage("Account created. Check your email for the verification link, then sign in.");
+            accountMessage("Your account was created. Check your email for the verification link to complete setup.");
         } catch (error) { accountMessage(error.message, true); }
     });
 
