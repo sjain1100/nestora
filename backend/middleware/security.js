@@ -15,8 +15,10 @@ function errorHandler(err, _req, res, _next) {
   if (err.name === "ValidationError") return res.status(400).json({ success:false,message:Object.values(err.errors).map(x=>x.message).join("; ") });
   if (err.code === 11000) return res.status(409).json({ success:false,message:"A record with that value already exists" });
   if (err.name === "CastError") return res.status(400).json({ success:false,message:"Invalid identifier or value" });
-  const status = err.status || 500;
-  if (status >= 500) console.error("Request failed:", err.message);
-  res.status(status).json({ success:false,message:status >= 500 && process.env.NODE_ENV === "production" ? "Internal server error" : err.message || "Request failed" });
+  const message = String(err?.message || "");
+  const databaseUnavailable = err.name === "MongooseServerSelectionError" || err.name === "MongoNetworkError" || /ECONNREFUSED|ECONNRESET|ETIMEDOUT|ENOTFOUND|querysrv/i.test(message);
+  const status = databaseUnavailable ? 503 : Number(err.status) || 500;
+  if (status >= 500) console.error("Request failed:", { status, name: err.name || "Error", code: typeof err.code === "string" ? err.code : undefined });
+  res.status(status).json({ success:false,message:status >= 500 ? "The service is temporarily unavailable. Please try again shortly." : err.message || "Request failed" });
 }
 module.exports = { csrfGuard, errorHandler };
