@@ -43,7 +43,7 @@ The password must be 12–72 characters. The script hashes it before storing it 
 - Buyers can browse approved listings, save favorites, send property enquiries, request visits, and manage their own account in `/dashboard.html`.
 - Administrators sign in through `/admin-login.html`. The admin dashboard reads live API data and supports listing moderation, broker verification, user suspension, enquiry and visit review, and statistics.
 
-New accounts receive an email-verification link when Resend or SMTP is configured. In non-production, the API returns a one-use verification token for local testing. Forgot-password requests use the same email provider; without one, non-production responses include a short-lived reset token. Production never returns either token and requires Resend or SMTP for account registration and reset email delivery. For Render Free, use Resend's HTTPS API because outbound SMTP ports are blocked.
+New accounts receive an email-verification link when Resend or SMTP is configured. In non-production, the API returns a one-use verification token for local testing. Forgot-password requests use the same email provider; without one, non-production responses include a short-lived reset token. Production never returns reset tokens. Email verification is required by default and requires Resend or SMTP. Set `EMAIL_VERIFICATION_REQUIRED=false` for a demo deployment: registration saves accounts without sending verification email, while leaving `emailVerified` false. Password reset still requires working email delivery and never exposes reset tokens. For Render Free, use Resend's HTTPS API because outbound SMTP ports are blocked.
 
 ## Environment variables
 
@@ -59,6 +59,7 @@ New accounts receive an email-verification link when Resend or SMTP is configure
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Optional Cloudinary storage credentials; all three enable remote image storage |
 | `CLOUDINARY_FOLDER` | Cloudinary folder (default `nestora/properties`) |
 | `RESEND_API_KEY`, `RESEND_FROM` | Recommended production email delivery, including on Render Free; use a verified sender domain for real recipients |
+| `EMAIL_VERIFICATION_REQUIRED` | Defaults to `true`; set `false` for demo registration without verification email. Accounts remain unverified; password reset still requires email delivery. |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | Optional SMTP alternative on hosts that permit outbound SMTP |
 | `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Temporary admin seeding inputs for `npm run create-admin` |
 
