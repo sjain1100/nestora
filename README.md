@@ -106,6 +106,16 @@ For the complete product, architecture, data, verification, and remaining-work s
 Run `npm run dev:local` to start the site and API with an isolated local MongoDB database. It does not use `MONGO_URI` from `.env` and does not connect to Atlas. The MongoDB binary is cached in the ignored `.test-cache/mongodb` folder; the local database is stored in the ignored .test-cache/nestora-dev-db-20261122-130654 folder by default and persists across local runs. This mode is for development only. It generates a temporary signing secret, disables SMTP and Cloudinary, uses local image uploads, and returns development-only email tokens. Local accounts and listings stay in the local database and are never sent to Atlas.
 ## Local sample inventory and photo uploads
 
-Run npm run seed:demo with MONGO_URI pointing to the local development MongoDB to add 13 sample listings across the four cities in the filters: Mumbai, Pune, Bangalore, and Delhi. The inventory includes examples in the available property categories and price bands. The command refuses production and non-local MongoDB hosts. Sample listings are labeled as illustrative and not live offers.
+The demo inventory contains 29 illustrative listings across Mumbai, Pune, Bangalore, and Delhi. It includes a property in each of the four sale-price ranges for every city: under ₹50 lakh, ₹50 lakh–₹1 crore, ₹1–2 crore, and ₹2 crore+. Every card is marked “SAMPLE LISTING”; these are demonstration records, not real offers.
+
+For local development, run `npm run seed:demo` with `MONGO_URI` set to the local development MongoDB. The script refuses non-local databases outside production and is safe to rerun: it only adds missing sample titles under a reserved demo account.
+
+To publish the sample inventory to the deployed Render database once, deploy this change and run the following from the Render service Shell:
+
+```sh
+ALLOW_PRODUCTION_DEMO_SEED=true npm run seed:demo
+```
+
+The production seed command requires both `NODE_ENV=production` and the one-command opt-in above. Do not add the opt-in to the service's persistent environment. The seed does not remove or overwrite existing records.
 
 To see listings, open the Properties page. To review contact messages and manage records, sign in through the admin login after creating an administrator. Sellers and brokers can upload up to six JPG, PNG, or WebP photos per listing, up to 5 MB each; the dashboard shows previews before submission. Local uploaded files are stored in uploads/.

@@ -1,21 +1,29 @@
 require("dotenv").config();
 const crypto = require("node:crypto");
 const bcrypt = require("bcryptjs");
-const { connectDatabase, mongoose } = require("../backend/config/db");
+const { connectDatabase, mongoose, getMongoUri, isMongoUriPlaceholder } = require("../backend/config/db");
 const User = require("../backend/models/User");
 const Property = require("../backend/models/Property");
-const examples = require("./demo-properties");
+const examples = [...require("./demo-properties"), ...require("./demo-budget-matrix")];
 
 const DEMO_OWNER_EMAIL = "sample-listings@demo.nestora.invalid";
 
 async function seed() {
-  if (process.env.NODE_ENV === "production") throw new Error("Demo listings can only be seeded in development.");
-  if (!process.env.MONGO_URI) throw new Error("Set MONGO_URI to the local development MongoDB before seeding.");
-  const host = new URL(process.env.MONGO_URI).hostname.toLowerCase();
-  if (!["localhost", "127.0.0.1", "::1"].includes(host)) {
-    throw new Error("For safety, demo listings may only be seeded into a local MongoDB database.");
+  const mongoUri = getMongoUri();
+  if (!mongoUri) throw new Error("Set MONGO_URI (or MONGODB_URI) before seeding.");
+  if (isMongoUriPlaceholder(mongoUri)) throw new Error("Replace the sample MongoDB URI placeholders before seeding.");
+  const host = new URL(mongoUri).hostname.toLowerCase();
+  const isLocalMongo = ["localhost", "127.0.0.1", "::1"].includes(host);
+  const productionOptIn = process.env.ALLOW_PRODUCTION_DEMO_SEED === "true";
+
+  if (process.env.NODE_ENV === "production") {
+    if (!productionOptIn) throw new Error("Production seeding requires the one-time ALLOW_PRODUCTION_DEMO_SEED=true opt-in.");
+    if (isLocalMongo) throw new Error("Production seed opt-in requires the deployed non-local database.");
+  } else if (!isLocalMongo) {
+    throw new Error("For safety, non-production demo seeding may only use a local MongoDB database.");
   }
-  await connectDatabase();
+
+  await connectDatabase(mongoUri);
 
   let owner = await User.findOne({ email: DEMO_OWNER_EMAIL });
   if (!owner) {
@@ -59,7 +67,7 @@ async function seed() {
     });
     created += 1;
   }
-  console.log("Added " + created + " sample listings across Mumbai, Pune, Bangalore, and Delhi.");
+  console.log("Added " + created + " sample listings; " + (examples.length - created) + " already existed. The reserved demo listings are illustrative, not live offers.");
 }
 
 seed().catch(error => {
