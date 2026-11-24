@@ -159,6 +159,21 @@
     return path + (value ? "?" + value : "");
   };
 
+  global.showEmailVerificationNotice = async function (anchor) {
+    if (!anchor) return;
+    try {
+      const config = await request("/api/auth/config");
+      if (config.emailVerificationRequired !== false) return;
+      const notice = document.createElement("p");
+      notice.className = "demo-note demo-mode-notice";
+      notice.setAttribute("role", "status");
+      notice.textContent = "Demo mode: Email verification is disabled. Your email remains unverified.";
+      anchor.before(notice);
+    } catch {
+      // Keep signup usable if the optional mode notice cannot be loaded.
+    }
+  };
+
   global.NestoraAPI = {
     request,
     auth: {
