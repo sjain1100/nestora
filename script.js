@@ -511,8 +511,9 @@ async function initAccountPage() {
         loggedOut.hidden = true;
         dashboard.hidden = false;
         document.getElementById("accountName").textContent = user.name;
-        document.getElementById("accountRole").textContent = `${user.role} · ${user.emailVerified ? "Email verified" : "Email not verified"}`;
-        document.getElementById("dashboardVerifyForm").hidden = user.emailVerified;
+        const emailStatus = user.emailVerificationRequired === false ? "Email verification disabled (demo mode; unverified)" : user.emailVerified ? "Email verified" : "Email not verified";
+        document.getElementById("accountRole").textContent = `${user.role} · ${emailStatus}`;
+        document.getElementById("dashboardVerifyForm").hidden = user.emailVerified || user.emailVerificationRequired === false;
         const verificationToken = new URLSearchParams(window.location.search).get("verificationToken");
         if (verificationToken) document.querySelectorAll('[name="token"]').forEach(input => { input.value = verificationToken; });
         document.getElementById("profileForm").elements.name.value = user.name;
@@ -542,8 +543,8 @@ function bindAccountForms() {
         try {
             const values = formValues(login);
             if (login.dataset.role) values.role = login.dataset.role;
-            await apiRequest("/api/auth/login", { method: "POST", body: JSON.stringify(values) });
-            accountMessage("Signed in successfully.");
+            const loginResult = await apiRequest("/api/auth/login", { method: "POST", body: JSON.stringify(values) });
+            accountMessage(loginResult.user?.emailVerificationRequired === false ? "Signed in. Demo mode: email verification is disabled; your email remains unverified." : "Signed in successfully.");
             if (login.dataset.role) {
                 window.location.href = "account.html";
                 return;
@@ -553,6 +554,7 @@ function bindAccountForms() {
     });
 
     const register = document.getElementById("registerForm");
+    if (register) window.showEmailVerificationNotice(register);
     register?.addEventListener("submit", async event => {
         event.preventDefault();
         const values = formValues(register);
@@ -565,7 +567,7 @@ function bindAccountForms() {
             }
             register.reset();
             document.getElementById("registerRole")?.dispatchEvent(new Event("change"));
-            accountMessage("Your account was created. Check your email for the verification link to complete setup.");
+            accountMessage(result.emailVerificationRequired === false ? "Account created. Demo mode: email verification is disabled; your email remains unverified." : "Your account was created. Check your email for the verification link to complete setup.");
         } catch (error) { accountMessage(error.message, true); }
     });
 
