@@ -1,6 +1,7 @@
 const bcrypt=require("bcryptjs");
 const crypto=require("crypto");
 const {emailReady,sendEmail}=require("../utils/email");
+const {emailVerificationRequired,registrationVerificationFields}=require("../config/emailVerification");
 const User=require("../models/User");
 const BrokerProfile=require("../models/BrokerProfile");
 const {string,email,phone}=require("../utils/validation");
@@ -8,7 +9,7 @@ const {sign,digest,randomToken}=require("../utils/tokens");
 const cookieOptions=()=>({httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/",maxAge:60*60*1000});
 function setLoginCookie(res,user){res.cookie("nestora_auth",sign(user),cookieOptions());}
 function clearLoginCookie(res){res.clearCookie("nestora_auth",{httpOnly:true,secure:process.env.NODE_ENV==="production",sameSite:"lax",path:"/"});}
-function safeUser(user){return {id:user._id.toString(),name:user.name,email:user.email,phone:user.phone,role:user.role,suspended:user.suspended,emailVerified:user.emailVerified,profileImage:user.profileImage,sellerDetails:user.role==="seller"?user.sellerDetails||{sellerType:"individual",organizationName:""}:undefined,createdAt:user.createdAt};}
+function safeUser(user){return {id:user._id.toString(),name:user.name,email:user.email,phone:user.phone,role:user.role,suspended:user.suspended,emailVerified:user.emailVerified,emailVerificationRequired:emailVerificationRequired(),profileImage:user.profileImage,sellerDetails:user.role==="seller"?user.sellerDetails||{sellerType:"individual",organizationName:""}:undefined,createdAt:user.createdAt};}
 async function deliverVerificationEmail(to,token){
   if(!emailReady()){if(process.env.NODE_ENV!=="production")return false;throw Object.assign(new Error("Email verification is not configured"),{status:503});}
   const link=`${process.env.APP_URL||process.env.FRONTEND_URL||"http://localhost:5000"}/account.html?verificationToken=${encodeURIComponent(token)}`;
@@ -28,21 +29,28 @@ async function register(req,res){
     if(sellerType==="company"&&!organizationName)return res.status(400).json({success:false,message:"Organization name is required for company sellers"});
     sellerDetails={sellerType,organizationName};
   }
-  if(process.env.NODE_ENV==="production"&&!emailReady())return res.status(503).json({success:false,message:"Email verification is not configured. Set Resend or SMTP before accepting new accounts."});
-  const verificationToken=randomToken();
-  const user=await User.create({name,email:mail,phone:mobile,passwordHash:await bcrypt.hash(password,12),role,emailVerificationTokenHash:digest(verificationToken),emailVerificationTokenExpires:new Date(Date.now()+24*60*60*1000),...(sellerDetails?{sellerDetails}:{})});
+  const verificationRequired=emailVerificationRequired();
+  if(verificationRequired&&process.env.NODE_ENV==="production"&&!emailReady())return res.status(503).json({success:false,message:"Email verification is not configured. Set Resend or SMTP before accepting new accounts."});
+  const verificationToken=verificationRequired?randomToken():null;
+  const user=await User.create({name,email:mail,phone:mobile,passwordHash:await bcrypt.hash(password,12),role,...registrationVerificationFields(verificationRequired,verificationToken),...(sellerDetails?{sellerDetails}:{})});
   let verificationSent=false;
   try {
     if(role==="broker"){
       const areas=Array.isArray(req.body.areasServed)?req.body.areasServed:typeof req.body.areasServed==="string"?req.body.areasServed.split(",").map(x=>x.trim()).filter(Boolean):[];
       await BrokerProfile.create({user:user._id,agencyName:string(req.body.agencyName||"","Agency name",0,100),experience:Number(req.body.experience||0),licenseNumber:string(req.body.licenseNumber||"","License number",0,100),bio:string(req.body.bio||req.body.description||"","Bio",0,2000),areasServed:areas});
     }
-    verificationSent=await deliverVerificationEmail(mail,verificationToken);
+    if(verificationRequired)verificationSent=await deliverVerificationEmail(mail,verificationToken);
   } catch(err) {
     await Promise.all([User.deleteOne({_id:user._id}),BrokerProfile.deleteOne({user:user._id})]);
     throw err;
   }
-  setLoginCookie(res,user);const result={success:true,message:"Account created successfully. Verify your email to complete setup.",user:safeUser(user),verificationSent};if(!verificationSent&&process.env.NODE_ENV!=="production")result.developmentVerificationToken=verificationToken;res.status(201).json(result);
+  setLoginCookie(res,user);
+  const message=verificationRequired
+    ?"Account created successfully. Verify your email to complete setup."
+    :"Account created. Email verification is disabled in demo mode; your email remains unverified.";
+  const result={success:true,message,user:safeUser(user),verificationSent,emailVerificationRequired:verificationRequired};
+  if(verificationRequired&&!verificationSent&&process.env.NODE_ENV!=="production")result.developmentVerificationToken=verificationToken;
+  res.status(201).json(result);
 }
 async function login(req,res){
   const mail=email(req.body.email);const password=string(req.body.password,"Password",1,72);const user=await User.findOne({email:mail}).select("+passwordHash");
