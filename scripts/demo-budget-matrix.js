@@ -42,6 +42,6 @@ module.exports = cities.flatMap((entry, cityIndex) => entry.homes.map((home, bud
     title, description: "Illustrative demo listing to show the " + bands[budgetIndex] + " search range. This is sample website content, not a live real-estate offer.",
     propertyType, listingType: "Sale", price, location, city: entry.city, state: entry.state,
     address: location + ", " + entry.city, bedrooms, bathrooms, areaSqFt,
-    mainImage: image, images: [image], amenities: ["Balcony", "Parking", "Security"], featured: false
+    mainImage: image, images: [image], amenities: ["Balcony", "Parking", "Security"], featured: budgetIndex === 3
   };
 }));
