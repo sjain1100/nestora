@@ -97,7 +97,7 @@ The integration suite starts an isolated MongoDB instance with `mongodb-memory-s
 
 ## Hosted deployment
 
-The Render Blueprint is in `render.yaml`; deployment prerequisites and the current deployment status are documented in `DEPLOYMENT_REPORT.md`. Production requires MongoDB Atlas, Cloudinary, and either Resend or SMTP credentials configured in the hosting provider's secret settings. The free Render Blueprint uses Resend over HTTPS; Render Free services sleep when idle and have ephemeral local filesystems, so persistent images must use Cloudinary. Never commit `.env` or paste production secrets into source files.
+The Render Blueprint is in `render.yaml`; deployment prerequisites and the current deployment status are documented in `DEPLOYMENT_REPORT.md`. Production requires MongoDB Atlas, a private JWT secret, and Cloudinary credentials configured in the hosting provider's environment settings. Email delivery is required when `EMAIL_VERIFICATION_REQUIRED=true` (the default) and whenever users need emailed password-reset links. For a demo deployment without a verified sender, set `EMAIL_VERIFICATION_REQUIRED=false`: registration and login work, but accounts remain unverified and password-reset delivery still needs a working email provider. The free Render Blueprint uses Resend over HTTPS; Render Free services sleep when idle and have ephemeral local filesystems, so persistent images must use Cloudinary. Never commit `.env` or paste production secrets into source files.
 
 For the complete product, architecture, data, verification, and remaining-work summary, see `PROJECT_REPORT.md`.
 
