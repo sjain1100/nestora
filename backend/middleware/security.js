@@ -46,9 +46,10 @@ function errorHandler(err, req, res, _next) {
   if (err.name === "CastError") return res.status(400).json({ success:false,message:"Invalid identifier or value" });
   const rawMessage = String(err?.message || "");
   const databaseUnavailable = err.name === "MongooseServerSelectionError" || err.name === "MongoNetworkError" || /ECONNREFUSED|ECONNRESET|ETIMEDOUT|ENOTFOUND|querysrv/i.test(rawMessage);
+  const databaseAuthorizationFailure = err.code === 13 || err.code === 18;
   const emailDeliveryFailure = err.code === "EMAIL_DELIVERY_FAILED";
   const emailProviderUnavailable = err.code === "EMAIL_PROVIDER_UNAVAILABLE";
-  const status = databaseUnavailable || emailDeliveryFailure || emailProviderUnavailable ? 503 : Number(err.status) || 500;
+  const status = databaseUnavailable || databaseAuthorizationFailure || emailDeliveryFailure || emailProviderUnavailable ? 503 : Number(err.status) || 500;
   let reference;
   if (status >= 500) {
     reference = crypto.randomUUID();
@@ -64,6 +65,7 @@ function errorHandler(err, req, res, _next) {
   let publicMessage = "The service is temporarily unavailable. Please try again shortly.";
   if (emailDeliveryFailure) publicMessage = "The verification email was rejected. Check the email provider API key and verified sender address.";
   else if (emailProviderUnavailable) publicMessage = "The email service could not be reached. Check the provider status and try again.";
+  else if (databaseAuthorizationFailure) publicMessage = "Atlas rejected database access. Check that the database user can write to the database named in the connection string.";
   else if (databaseUnavailable) publicMessage = "The database connection is temporarily unavailable. Please try again shortly.";
   if (reference) publicMessage += " Reference: " + reference;
   res.status(status).json({ success:false,message:status >= 500 ? publicMessage : err.message || "Request failed" });
