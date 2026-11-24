@@ -2,6 +2,7 @@ require("dotenv").config();
 const crypto=require("crypto");
 const {connectDatabase,getMongoUri,isMongoUriPlaceholder}=require("./backend/config/db");
 const {emailReady}=require("./backend/utils/email");
+const {emailVerificationRequired}=require("./backend/config/emailVerification");
 const app=require("./backend/app");
 
 const previewOnly=process.env.NESTORA_FRONTEND_PREVIEW==="true";
@@ -14,7 +15,7 @@ function validateProductionConfig(){
   if(process.env.NODE_ENV!=="production")return;
   const required=["CLOUDINARY_CLOUD_NAME","CLOUDINARY_API_KEY","CLOUDINARY_API_SECRET"];
   const missing=required.filter(key=>!String(process.env[key]||"").trim());
-  if(!emailReady())missing.push("RESEND_API_KEY and RESEND_FROM (or SMTP_HOST, SMTP_USER, SMTP_PASSWORD, SMTP_FROM)");
+  if(emailVerificationRequired()&&!emailReady())missing.push("RESEND_API_KEY and RESEND_FROM (or SMTP_HOST, SMTP_USER, SMTP_PASSWORD, SMTP_FROM)");
   const mongoUri=getMongoUri();
   if(!mongoUri)missing.unshift("MONGO_URI (or MONGODB_URI)");
   else if(isMongoUriPlaceholder(mongoUri))missing.unshift("MONGO_URI (replace sample placeholders)");
@@ -22,6 +23,7 @@ function validateProductionConfig(){
 }
 
 async function start(){
+  if(!emailVerificationRequired())console.warn("EMAIL_VERIFICATION_REQUIRED=false: demo mode; new accounts remain email-unverified and password reset still requires email delivery.");
   if(previewOnly&&process.env.NODE_ENV==="production")throw new Error("Frontend preview mode is disabled in production");
   if(!previewOnly){validateProductionConfig();await connectDatabase();}
   const port=Number(process.env.PORT||5000);
