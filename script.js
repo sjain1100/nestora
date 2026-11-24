@@ -567,7 +567,8 @@ function bindAccountForms() {
             }
             register.reset();
             document.getElementById("registerRole")?.dispatchEvent(new Event("change"));
-            accountMessage(result.emailVerificationRequired === false ? "Account created. Demo mode: email verification is disabled; your email remains unverified." : "Your account was created. Check your email for the verification link to complete setup.");
+            accountMessage(result.emailVerificationRequired === false ? "Account created and signed in. Demo mode: email verification is disabled; your email remains unverified." : "Your account was created. Check your email for the verification link to complete setup.");
+            if (result.emailVerificationRequired === false) await initAccountPage();
         } catch (error) { accountMessage(error.message, true); }
     });
 
