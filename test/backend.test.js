@@ -8,6 +8,7 @@ if (!process.env.MONGOMS_DOWNLOAD_DIR) process.env.MONGOMS_DOWNLOAD_DIR = path.r
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
 process.env.NODE_ENV = "test";
+process.env.EMAIL_VERIFICATION_REQUIRED = "true";
 process.env.JWT_SECRET = "test-secret-for-nestora-test-only-123456";
 process.env.JWT_EXPIRES_IN = "1h";
 process.env.SMTP_HOST = "";
@@ -115,6 +116,38 @@ test("MongoDB API supports role-based property, lead, visit, and admin workflows
   assert.equal((await fetch(`${baseUrl}/server.js`)).status, 404);
 
   const buyerJar = new Map(), brokerJar = new Map(), sellerJar = new Map();
+  const previousVerificationSetting = process.env.EMAIL_VERIFICATION_REQUIRED;
+  process.env.EMAIL_VERIFICATION_REQUIRED = "false";
+  try {
+    const demoJar = new Map();
+    const demoReg = await request(demoJar, "/api/auth/register", { method: "POST", body: {
+      name: "Demo Mode Buyer", email: "demo-mode@example.test", phone: "+919876543220",
+      password: "StrongPass123", confirmPassword: "StrongPass123", role: "buyer"
+    }});
+    assert.equal(demoReg.response.status, 201);
+    assert.equal(demoReg.data.emailVerificationRequired, false);
+    assert.equal(demoReg.data.user.emailVerified, false);
+    assert.match(demoReg.data.message, /demo mode/i);
+    assert.equal(Object.hasOwn(demoReg.data, "developmentVerificationToken"), false);
+
+    const DemoUser = require("../backend/models/User");
+    const demoRecord = await DemoUser.findById(demoReg.data.user.id).select("+passwordHash +emailVerificationTokenHash +emailVerificationTokenExpires");
+    assert.equal(demoRecord.emailVerified, false);
+    assert.equal(demoRecord.emailVerificationTokenHash, undefined);
+    assert.equal(demoRecord.emailVerificationTokenExpires, undefined);
+    assert.equal(await bcrypt.compare("StrongPass123", demoRecord.passwordHash), true);
+
+    const demoLogin = await request(new Map(), "/api/auth/login", { method: "POST", body: {
+      email: "demo-mode@example.test", password: "StrongPass123", role: "buyer"
+    }});
+    assert.equal(demoLogin.response.status, 200);
+    assert.equal(demoLogin.data.user.emailVerified, false);
+    assert.equal(demoLogin.data.user.emailVerificationRequired, false);
+  } finally {
+    if (previousVerificationSetting === undefined) delete process.env.EMAIL_VERIFICATION_REQUIRED;
+    else process.env.EMAIL_VERIFICATION_REQUIRED = previousVerificationSetting;
+  }
+
   const buyerReg = await request(buyerJar, "/api/auth/register", { method: "POST", body: {
     name: "Test Buyer", email: "BUYER@example.test", phone: "+919876543210",
     password: "StrongPass123", confirmPassword: "StrongPass123", role: "buyer"
